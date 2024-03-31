@@ -18,4 +18,4 @@ To get started with musiSync, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/your-repo.git
+   git clone https://github.com/Smit-1103/musiSync.git
