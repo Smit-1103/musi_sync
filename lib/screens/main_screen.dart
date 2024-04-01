@@ -18,11 +18,11 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(_isHomeSelected ? 'Home' : 'Favorites'),
+        title: Text(_isHomeSelected ? 'MusiSync' : 'Favorites'),
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: _isHomeSelected ? const HomeScreen() : FavoritesScreen(),
+        child: _isHomeSelected ? HomeScreen() : const FavoritesScreen(),
         transitionBuilder: (child, animation) {
           final slideAnimation = Tween<Offset>(
             begin: _isLeftToRight

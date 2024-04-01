@@ -33,7 +33,7 @@ final List<Song> dummySongs = [
   ),
   Song(
     title: 'Peaches',
-    artist: 'Justin Bieber, Daniel Caesar & Giveon',
+    artist: 'Justin Bieber, Daniel Caesar',
     imageUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgEcOzAePNp9NDRVcZgz7WwhJ0q14ERE7sLg&usqp=CAU',
   ),

@@ -21,62 +21,86 @@ class SongsListScreen extends ConsumerWidget {
           // Show bottom sheet when the card is tapped
           showModalBottomSheet(
             context: context,
+            isScrollControlled: true,
             builder: (BuildContext context) {
-              return Consumer(
-                builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  return ListView.builder(
-                    itemCount: songs.length,
-                    itemBuilder: (context, index) {
-                      final song = songs.length > index ? songs[index] : null;
-
-                      if (song == null) return const SizedBox();
-
-                      return Column(
-                        children: [
-                          ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(song.imageUrl),
-                            ),
-                            title: Text(song.title),
-                            subtitle: Text(song.artist),
-                            trailing: IconButton(
-                              icon: Icon(
-                                Icons.favorite,
-                                color: likedSongs.contains(song)
-                                    ? Colors.red
-                                    : Colors.grey,
+              return FractionallySizedBox(
+                heightFactor: 0.80,
+                child: Consumer(
+                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                    return ListView.builder(
+                      itemCount: songs.length,
+                      itemBuilder: (context, index) {
+                        final song = songs.length > index ? songs[index] : null;
+                
+                        if (song == null) return const SizedBox();
+                
+                        return Column(
+                          children: [
+                            ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(song.imageUrl),
                               ),
-                              onPressed: () {
-                                if (likedSongs.contains(song)) {
-                                  likedSongsNotifier.removeLikedSong(song);
-                                } else {
-                                  likedSongsNotifier.addLikedSong(song);
-                                }
-                                // You may also want to refresh the UI here (optional)
-                              },
+                              title: Text(song.title),
+                              subtitle: Text(song.artist),
+                              trailing: IconButton(
+                                icon: Consumer(
+                                  builder: (context, watch, child) {
+                                    final isLiked = likedSongs.contains(
+                                        song); // Access likedSongs from provider
+                                    return Icon(
+                                      Icons.favorite,
+                                      color: isLiked ? Colors.red : Colors.grey,
+                                    );
+                                  },
+                                ),
+                                onPressed: () {
+                                  if (likedSongs.contains(song)) {
+                                    likedSongsNotifier.removeLikedSong(song);
+                                  } else {
+                                    likedSongsNotifier.addLikedSong(song);
+                                  }
+                                  // You may also want to refresh the UI here (optional)
+                                },
+                              ),
                             ),
-                          ),
-                          const Divider(),
-                        ],
-                      );
-                    },
-                  );
-                },
+                            const Divider(),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               );
             },
           );
         },
-        child: const Card(
-          child: SizedBox(
+        child: Card(
+          color: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          elevation: 0,
+          child: Container(
             width: 150,
             height: 150,
-            child: Column(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              gradient: const LinearGradient(
+                colors: [
+                  Colors.orangeAccent,
+                  Colors.redAccent
+                ], // Your gradient colors
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   Icons.library_music_outlined,
                   size: 64,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -84,6 +108,7 @@ class SongsListScreen extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white, // Text color
                   ),
                 ),
               ],

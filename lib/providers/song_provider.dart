@@ -6,9 +6,12 @@ import '../data/dmmy_data.dart';
 
 // StateNotifier class to manage the list of songs
 final songsProvider = StateNotifierProvider<SongsNotifier, List<Song>>((ref) {
-  return SongsNotifier(
-      dummySongs);
+  return SongsNotifier(dummySongs);
 });
+
+//
+final filteredSongsProvider = StateProvider<List<Song>>((ref) => []);
+//
 
 class SongsNotifier extends StateNotifier<List<Song>> {
   SongsNotifier(super.initialSongs);
