@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:musi_sync/providers/liked_songs_provider.dart';
 import '../model/song.dart';
+import 'song_details_screen.dart';
 
 class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});
@@ -67,9 +68,17 @@ class FavoritesScreen extends ConsumerWidget {
                   onPressed: () {
                     // Remove song from liked list using likedSongsNotifier
                     likedSongsNotifier.removeLikedSong(song);
-                    // You may also want to refresh the UI here (optional)
                   },
                 ),
+                // Add this line for navigation to SongDetailsScreen
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SongDetailsScreen(song: song),
+                    ),
+                  );
+                },
               ),
               const Divider(),
             ],

@@ -79,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
                             color:
                                 _isHomeSelected ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                            fontSize: 15),
                       ),
                     ],
                   ),
@@ -115,7 +115,7 @@ class _MainScreenState extends State<MainScreen> {
                         style: TextStyle(
                           color: !_isHomeSelected ? Colors.white : Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: 15,
                         ),
                       ),
                     ],

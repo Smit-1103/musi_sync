@@ -6,6 +6,8 @@ class Song {
   final String title;
   final String artist;
   final String imageUrl;
+  final double duration;
+  final String audioUrl;
   bool isLiked;
 
   Song({
@@ -14,6 +16,8 @@ class Song {
     required this.artist,
     required this.imageUrl,
     this.isLiked = false,
+    required this.duration,
+    required this.audioUrl,
   }) : id = id ?? const Uuid().v4(); // Generate UUID if id is null
 
   Song copyWith({
@@ -21,6 +25,8 @@ class Song {
     String? title,
     String? artist,
     String? imageUrl,
+    double? duration,
+    String? audioUrl,
     bool? isLiked,
   }) {
     return Song(
@@ -29,6 +35,8 @@ class Song {
       artist: artist ?? this.artist,
       imageUrl: imageUrl ?? this.imageUrl,
       isLiked: isLiked ?? this.isLiked,
+      duration: duration ?? this.duration,
+      audioUrl: audioUrl ?? this.audioUrl,
     );
   }
 }
