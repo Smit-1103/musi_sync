@@ -1,40 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:musi_sync/model/song.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:musi_sync/providers/liked_songs_provider.dart';
+import '../model/song.dart';
 
-class FavoritesScreen extends StatefulWidget {
+class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});
 
   @override
-  _FavoritesScreenState createState() => _FavoritesScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<Song> likedSongs = ref.watch(likedSongsProvider);
+    final likedSongsNotifier = ref.read(likedSongsNotifierProvider);
 
-class _FavoritesScreenState extends State<FavoritesScreen> {
-  final List<Song> favoriteSongs = [
-    Song(
-      title: 'Song 1',
-      artist: 'Artist 1',
-      imageUrl: 'https://example.com/image1.jpg',
-      isLiked: true,
-    ),
-    Song(
-      title: 'Song 2',
-      artist: 'Artist 2',
-      imageUrl: 'https://example.com/image2.jpg',
-      isLiked: false,
-    ),
-    // Add more songs as needed
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Favorites'),
+    Widget content = Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 180,
+            height: 180,
+            child: Lottie.asset(
+              'assets/images/empty.json',
+              repeat: false,
+            ),
+          ),
+          Text(
+            'uh ohh... nothing here!',
+            style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(
+            'Add your favorite songs here...',
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: favoriteSongs.length,
+    );
+
+    if (likedSongs.isNotEmpty) {
+      content = ListView.builder(
+        itemCount: likedSongs.length,
         itemBuilder: (context, index) {
-          final song = favoriteSongs[index];
+          final song = likedSongs.length > index ? likedSongs[index] : null;
+
+          if (song == null) return const SizedBox();
+
           return Column(
             children: [
               ListTile(
@@ -46,20 +62,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 trailing: IconButton(
                   icon: Icon(
                     Icons.favorite,
-                    color: song.isLiked ? Colors.red : Colors.grey,
+                    color: likedSongs.contains(song) ? Colors.red : Colors.grey,
                   ),
                   onPressed: () {
-                    setState(() {
-                      song.isLiked = !song.isLiked;
-                    });
+                    // Remove song from liked list using likedSongsNotifier
+                    likedSongsNotifier.removeLikedSong(song);
+                    // You may also want to refresh the UI here (optional)
                   },
                 ),
               ),
-              Divider(),
+              const Divider(),
             ],
           );
         },
-      ),
+      );
+    }
+
+    return Scaffold(
+      body: content,
     );
   }
 }

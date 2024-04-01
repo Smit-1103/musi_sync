@@ -58,7 +58,8 @@ class _MainScreenState extends State<MainScreen> {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                   decoration: BoxDecoration(
                     color: _isHomeSelected ? Colors.blue : Colors.transparent,
                     borderRadius: BorderRadius.circular(30),
@@ -66,16 +67,19 @@ class _MainScreenState extends State<MainScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.home,
-                          color: _isHomeSelected ? Colors.white : Colors.black,size: 20,),
+                      Icon(
+                        Icons.home,
+                        color: _isHomeSelected ? Colors.white : Colors.black,
+                        size: 20,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         'Home',
                         style: TextStyle(
-                          color: _isHomeSelected ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16
-                        ),
+                            color:
+                                _isHomeSelected ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
                       ),
                     ],
                   ),
@@ -91,7 +95,8 @@ class _MainScreenState extends State<MainScreen> {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                   decoration: BoxDecoration(
                     color: !_isHomeSelected ? Colors.blue : Colors.transparent,
                     borderRadius: BorderRadius.circular(30),
@@ -99,8 +104,11 @@ class _MainScreenState extends State<MainScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.favorite,
-                          color:!_isHomeSelected ? Colors.white : Colors.black, size: 20,),
+                      Icon(
+                        Icons.favorite,
+                        color: !_isHomeSelected ? Colors.white : Colors.black,
+                        size: 20,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         'Favorites',

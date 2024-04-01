@@ -1,13 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:musi_sync/model/song.dart';
+import 'package:musi_sync/providers/liked_songs_provider.dart';
+import 'package:musi_sync/providers/song_provider.dart';
+import 'package:musi_sync/widgets/songs_list.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -80,54 +83,14 @@ class HomeScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'Playlists',
+                'Trending Songs',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              height: 200, // Height of the row
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Handle tap event
-                      print('Tapped on Card 1');
-                    },
-                    child: Card(
-                      child: Container(
-                        width: 150, // Width of each card
-                        height: 150, // Height of each card
-                        child: const Center(
-                          child: Text('Card 1'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // Handle tap event
-                      print('Tapped on Card 2');
-                    },
-                    child: Card(
-                      child: Container(
-                        width: 150, // Width of each card
-                        height: 150, // Height of each card
-                        child: const Center(
-                          child: Text('Card 2'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const SongsListScreen(),
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -179,6 +142,8 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            //
           ],
         ),
       ),
