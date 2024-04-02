@@ -7,14 +7,14 @@ final List<Song> dummySongs = [
     imageUrl:
         'https://static.independent.co.uk/s3fs-public/thumbnails/image/2014/12/05/18/Ed-Sheeran.jpg',
     duration: 453.40,
-    audioUrl: 'assets/audios/stay.mp3',
+    audioUrl: 'stay',
   ),
   Song(
     title: 'Good 4 U',
     artist: 'Olivia Rodrigo',
     imageUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQVT1k9Z2eiCePFV0g-5Bph3dFl151PLIJrg&usqp=CAU',
-    audioUrl: 'assets/audios/stay.mp3',
+    audioUrl: 'mahhi',
     duration: 333.40,
   ),
   Song(
@@ -22,7 +22,7 @@ final List<Song> dummySongs = [
     artist: 'Doja Cat & SZA',
     imageUrl:
         'https://i1.sndcdn.com/artworks-HWMl0uHMBz0enKQ6-lSwkEA-t500x500.jpg',
-    audioUrl: 'assets/audios/stay.mp3',
+    audioUrl: 'stay',
     duration: 333.40,
   ),
   Song(

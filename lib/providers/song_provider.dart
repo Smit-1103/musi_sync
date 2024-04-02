@@ -28,6 +28,14 @@ class SongsNotifier extends StateNotifier<List<Song>> {
   void removeSong(Song song) {
     state = state.where((s) => s != song).toList();
   }
+
+  // Method to get audio URL of a song by its ID
+  String getAudioUrlById(String songId) {
+    final song = state.firstWhere((s) => s.id == songId, orElse: () => Song(
+      id: '', title: '', artist: '', imageUrl: '', duration: 0.0, audioUrl: ''
+    ));
+    return song.audioUrl;
+  }
 }
 
 
