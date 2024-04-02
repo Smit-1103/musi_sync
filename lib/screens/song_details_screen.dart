@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import '../model/song.dart';
 
 class SongDetailsScreen extends StatefulWidget {
@@ -13,19 +15,68 @@ class SongDetailsScreen extends StatefulWidget {
 }
 
 class _SongDetailsScreenState extends State<SongDetailsScreen> {
-  bool _isPlaying = false;
-  double _currentPlaybackPosition = 0.0; // To store current position
-  late final AudioPlayer _player;
+  final audioPlayer = AudioPlayer();
+  bool isPlaying = false;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
 
   @override
   void initState() {
     super.initState();
-    _player = AudioPlayer();
+
+    setAudio();
+
+    // listen for changes in the state of the player - play, paused , stopped
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      setState(() {
+        isPlaying = state == PlayerState.playing;
+      });
+    });
+
+    //listen to audio duration
+    audioPlayer.onDurationChanged.listen((newDuration) {
+      setState(() {
+        duration = newDuration;
+      });
+    });
+
+    //listen to audioposition
+    audioPlayer.onPositionChanged.listen((newPosition) {
+      setState(() {
+        position = newPosition;
+      });
+    });
+  }
+
+  Future setAudio() async {
+    //for repeat song when completed
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    //load audio from file using filepicker
+    // final result = await FilePicker.platform.pickFiles();
+
+    // if (result != null) {
+    //   final file = File(result.files.single.path!);
+    //   audioPlayer.setSourceUrl(file.path);
+    // }
+
+    //lod the song from assets
+    final player = AudioCache(prefix: 'assets/audios/');
+    final url = await player.load('stay.mp3');
+    audioPlayer.setSourceUrl(url.path);
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //appbar
       appBar: AppBar(
         title: Text(widget.song.title),
         centerTitle: true,
@@ -36,47 +87,53 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            //image
             Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    10.0), // Adjust corner radius as desired
+                borderRadius: BorderRadius.circular(10.0),
               ),
               child: SizedBox(
                 height: 300,
                 width: 300,
                 child: Image.network(
                   widget.song.imageUrl,
-                  fit: BoxFit.cover, // Fills the entire card area
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
             const SizedBox(height: 16),
+            //title of the song
             Text(
               widget.song.title,
               style: const TextStyle(fontSize: 24),
             ),
             const SizedBox(height: 8),
+            //artist's name
             Text(
               widget.song.artist,
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
+            //slider for the audio player
             Slider(
-              value:
-                  _currentPlaybackPosition, // Update value as song progresses
-              onChanged: (value) {
-                _player.seek(Duration(seconds: value.toInt()));
-                setState(() {
-                  _currentPlaybackPosition = value;
-                });
+              min: 0,
+              max: duration.inSeconds.toDouble(),
+              value: position.inSeconds
+                  .toDouble(), // Update value as song progresses
+              onChanged: (value) async {
+                final position = Duration(seconds: value.toInt());
+                await audioPlayer.seek(position);
+
+                // play the song if it is stopped
+                await audioPlayer.resume();
               },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(formatDuration(_currentPlaybackPosition)),
-                Text(formatDuration(widget.song.duration)),
+                Text(formatTime(position)),
+                Text(formatTime(duration - position)),
               ],
             ),
             const SizedBox(height: 16),
@@ -90,16 +147,13 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-                  onPressed: () {
-                    setState(() {
-                      _isPlaying = !_isPlaying;
-                      if (_isPlaying) {
-                        _player.play();
-                      } else {
-                        _player.pause();
-                      }
-                    });
+                  icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                  onPressed: () async {
+                    if (isPlaying) {
+                      await audioPlayer.pause();
+                    } else {
+                      await audioPlayer.resume();
+                    }
                   },
                 ),
                 IconButton(
@@ -116,19 +170,13 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
     );
   }
 
-  String formatDuration(double seconds) {
-    int minutes = (seconds ~/ 60).clamp(0, 99);
-    int secondsRemaining = (seconds % 60).toInt().clamp(0, 59);
-    return "${minutes.toString().padLeft(2, '0')}:${secondsRemaining.toString().padLeft(2, '0')}";
+  String formatTime(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds";
   }
 }
-
-
-
-
-
-
-
 
 
 
@@ -223,15 +271,6 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
 //     );
 //   }
 // }
-
-
-
-
-
-
-
-
-
 
 // import 'package:flutter/material.dart';
 
