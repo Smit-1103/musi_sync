@@ -237,7 +237,7 @@ class HomeScreen extends ConsumerWidget {
                     _buildImageCard(
                       context: context,
                       imageUrl:
-                          'https://dailytimes.com.pk/assets/uploads/2022/06/03/658e8257c637a2710aa748c3c022d3f0.jpg',
+                          'https://cdn.siasat.com/wp-content/uploads/2024/01/Atif-Aslam.jpg',
                     ),
                     const SizedBox(
                       width: 18,

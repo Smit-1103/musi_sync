@@ -5,7 +5,7 @@ final List<Song> dummySongs = [
     title: 'Stay',
     artist: 'The Kid LAROI & Justin Bieber',
     imageUrl:
-        'https://static.independent.co.uk/s3fs-public/thumbnails/image/2014/12/05/18/Ed-Sheeran.jpg',
+        'https://i.pinimg.com/736x/4f/d9/94/4fd994c3e084d26f9e5df370a59506b6.jpg',
     duration: 453.40,
     audioUrl: 'stay',
   ),
@@ -31,7 +31,7 @@ final List<Song> dummySongs = [
     imageUrl:
         'https://www.thetimes.co.uk/imageserver/image/%2Fmethode%2Fsundaytimes%2Fprod%2Fweb%2Fbin%2Fc23f0d64-0060-11ee-91d8-175820cfdf88.jpg?crop=1500%2C1000%2C0%2C0',
     duration: 223.40,
-    audioUrl: 'assets/audios/stay.mp3',
+    audioUrl: 'Levitating',
   ),
   Song(
     title: 'Save Your Tears',

@@ -27,20 +27,23 @@ class SongsListScreen extends ConsumerWidget {
               return FractionallySizedBox(
                 heightFactor: 0.80,
                 child: Consumer(
-                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
                     return ListView.builder(
                       itemCount: songs.length,
                       itemBuilder: (context, index) {
                         final song = songs.length > index ? songs[index] : null;
-                
+
                         if (song == null) return const SizedBox();
-                
+
                         return GestureDetector(
                           onTap: () {
                             // Navigate to new screen when ListTile is tapped
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => SongDetailsScreen(song: song)),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SongDetailsScreen(song: song)),
                             );
                           },
                           child: Column(
@@ -58,17 +61,31 @@ class SongsListScreen extends ConsumerWidget {
                                           song); // Access likedSongs from provider
                                       return Icon(
                                         Icons.favorite,
-                                        color: isLiked ? Colors.red : Colors.grey,
+                                        color:
+                                            isLiked ? Colors.red : Colors.grey,
                                       );
                                     },
                                   ),
                                   onPressed: () {
                                     if (likedSongs.contains(song)) {
                                       likedSongsNotifier.removeLikedSong(song);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Removed from liked songs.'),
+                                        ),
+                                      );
                                     } else {
                                       likedSongsNotifier.addLikedSong(song);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Added to liked songs.'),
+                                        ),
+                                      );
                                     }
-                                    // You may also want to refresh the UI here (optional)
                                   },
                                 ),
                               ),
@@ -129,4 +146,3 @@ class SongsListScreen extends ConsumerWidget {
     );
   }
 }
-
